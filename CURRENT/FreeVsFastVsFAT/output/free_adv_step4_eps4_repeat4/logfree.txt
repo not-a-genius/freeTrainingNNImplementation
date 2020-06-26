@@ -1,11 +1,11 @@
 ***************************** LOGISTICS *****************************
-Experiment Date: 2020-06-26 17:27
+Experiment Date: 2020-06-26 19:23
 Output Name: free_adv_step4_eps4_repeat4
 User: gianluca
 ***************************** ARGUMENTS *****************************
 TRAIN: {'epochs': 1, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
 ADV: {'clip_eps': 0.01568627450980392, 'fgsm_step': 0.01568627450980392, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 256, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
+DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 128, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
 FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
 FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
 output_prefix: free_adv
@@ -17,7 +17,19 @@ output_name: free_adv_step4_eps4_repeat4
 **********************************************************************
 => creating model 'resnet50'
 ==> Preparing data..
-Train Epoch: [0][0/196]	Time 6.082 (6.082)	Data 0.001 (0.001)	Loss 7.0281 (7.0281)	Prec@1 0.000 (0.000)	Prec@5 1.172 (1.172)
-Train Epoch: [0][0/196]	Time 0.169 (3.125)	Data 0.001 (0.001)	Loss 7.4316 (7.2299)	Prec@1 13.281 (6.641)	Prec@5 60.547 (30.859)
-Train Epoch: [0][0/196]	Time 0.254 (2.168)	Data 0.001 (0.001)	Loss 33.1979 (15.8859)	Prec@1 12.109 (8.464)	Prec@5 50.391 (37.370)
-Train Epoch: [0][0/196]	Time 0.256 (1.690)	Data 0.001 (0.001)	Loss 44.1785 (22.9590)	Prec@1 11.328 (9.180)	Prec@5 53.125 (41.309)
+Train Epoch: [0][0/391]	Time 3.928 (3.928)	Data 0.001 (0.001)	Loss 7.3889 (7.3889)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
+Train Epoch: [0][0/391]	Time 0.098 (2.013)	Data 0.001 (0.001)	Loss 7.4227 (7.4058)	Prec@1 15.625 (7.812)	Prec@5 64.844 (32.422)
+Train Epoch: [0][0/391]	Time 0.143 (1.390)	Data 0.001 (0.001)	Loss 20.2007 (11.6707)	Prec@1 15.625 (10.417)	Prec@5 53.906 (39.583)
+Train Epoch: [0][0/391]	Time 0.143 (1.078)	Data 0.001 (0.001)	Loss 21.9773 (14.2474)	Prec@1 16.406 (11.914)	Prec@5 53.125 (42.969)
+Train Epoch: [0][10/391]	Time 0.154 (0.236)	Data 0.061 (0.049)	Loss 4.2539 (26.2993)	Prec@1 14.062 (11.623)	Prec@5 51.562 (49.867)
+Train Epoch: [0][10/391]	Time 0.146 (0.234)	Data 0.061 (0.049)	Loss 4.0232 (25.7689)	Prec@1 15.625 (11.719)	Prec@5 51.562 (49.907)
+Train Epoch: [0][10/391]	Time 0.146 (0.232)	Data 0.061 (0.049)	Loss 3.6575 (25.2547)	Prec@1 14.062 (11.773)	Prec@5 62.500 (50.200)
+Train Epoch: [0][10/391]	Time 0.143 (0.230)	Data 0.061 (0.049)	Loss 3.9298 (24.7701)	Prec@1 13.281 (11.808)	Prec@5 60.156 (50.426)
+Train Epoch: [0][20/391]	Time 0.161 (0.191)	Data 0.071 (0.051)	Loss 10.6239 (16.4922)	Prec@1 10.156 (12.336)	Prec@5 51.562 (52.527)
+Train Epoch: [0][20/391]	Time 0.151 (0.191)	Data 0.071 (0.051)	Loss 10.0468 (16.4136)	Prec@1 10.156 (12.309)	Prec@5 53.125 (52.534)
+Train Epoch: [0][20/391]	Time 0.148 (0.190)	Data 0.071 (0.051)	Loss 8.6783 (16.3204)	Prec@1 7.812 (12.255)	Prec@5 53.906 (52.551)
+Train Epoch: [0][20/391]	Time 0.142 (0.190)	Data 0.071 (0.051)	Loss 6.4872 (16.2034)	Prec@1 14.844 (12.286)	Prec@5 54.688 (52.576)
+Train Epoch: [0][30/391]	Time 0.148 (0.177)	Data 0.057 (0.052)	Loss 2.4414 (12.7967)	Prec@1 17.188 (13.494)	Prec@5 61.719 (55.869)
+Train Epoch: [0][30/391]	Time 0.150 (0.176)	Data 0.057 (0.052)	Loss 2.4018 (12.7115)	Prec@1 15.625 (13.512)	Prec@5 59.375 (55.898)
+Train Epoch: [0][30/391]	Time 0.143 (0.176)	Data 0.057 (0.052)	Loss 2.4246 (12.6279)	Prec@1 16.406 (13.535)	Prec@5 57.812 (55.913)
+Train Epoch: [0][30/391]	Time 0.147 (0.176)	Data 0.057 (0.052)	Loss 2.4106 (12.5455)	Prec@1 17.969 (13.571)	Prec@5 59.375 (55.941)

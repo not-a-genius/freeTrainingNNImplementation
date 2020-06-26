@@ -46,7 +46,7 @@ DATA:
     workers: 4
 
     # Training batch size
-    batch_size: 36
+    batch_size: 128
 
     # Image Size
     img_size: 256

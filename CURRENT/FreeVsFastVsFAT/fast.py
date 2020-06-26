@@ -69,7 +69,7 @@ def main():
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed(args.seed)
 
-    train_loader, test_loader = get_loaders(args.data_dir, configs.DATA.batch_size)
+    train_loader, test_loader = get_loaders(args.data_dir, configs.DATA.batch_size, configs.DATA.workers)
 
     epsilon = (args.epsilon / 255.) / std
     alpha = (args.alpha / 255.) / std
@@ -103,22 +103,31 @@ def main():
     # Training
     prev_robust_acc = 0.
     start_train_time = time.time()
-    logger.info('Epoch \t Seconds \t LR \t \t Train Loss \t Train Acc')
+    # Initialize the meters
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    top1 = AverageMeter()
+    top5 = AverageMeter()
     for epoch in range(configs.TRAIN.epochs):
-        print("IN EPOCH")
+        print(args.early_stop)
         start_epoch_time = time.time()
         train_loss = 0
         train_acc = 0
         train_n = 0
         for i, (X, y) in enumerate(train_loader):
+            end = time.time()
+
             X, y = X.cuda(), y.cuda()
+
+            data_time.update(time.time() - end)
             if i == 0:
                 first_batch = (X, y)
             if args.delta_init != 'previous':
                 delta = torch.zeros_like(X).cuda()
             if args.delta_init == 'random':
-                for i in range(len(epsilon)):
-                    delta[:, i, :, :].uniform_(-epsilon[i][0][0].item(), epsilon[i][0][0].item())
+                for j in range(len(epsilon)):
+                    delta[:, j, :, :].uniform_(-epsilon[j][0][0].item(), epsilon[j][0][0].item())
                 delta.data = clamp(delta, lower_limit - X, upper_limit - X)
             delta.requires_grad = True
             output = model(X + delta[:X.size(0)])
@@ -131,10 +140,30 @@ def main():
             delta = delta.detach()
             output = model(X + delta[:X.size(0)])
             loss = criterion(output, y)
+
             opt.zero_grad()
             with amp.scale_loss(loss, opt) as scaled_loss:
                 scaled_loss.backward()
             opt.step()
+
+            prec1, prec5 = accuracy(output, y, topk=(1, 5))
+            losses.update(loss.item(), X.size(0))
+            top1.update(prec1[0], X.size(0))
+            top5.update(prec5[0], X.size(0))
+
+            # measure elapsed time
+            batch_time.update(time.time() - end)
+            end = time.time()
+            if i % configs.TRAIN.print_freq == 0:
+                print('Train Epoch: [{0}][{1}/{2}]\t'
+                        'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+                        'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
+                        'Loss {cls_loss.val:.4f} ({cls_loss.avg:.4f})\t'
+                        'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
+                        'Prec@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
+                        epoch, i, len(train_loader), batch_time=batch_time,
+                        data_time=data_time, top1=top1, top5=top5,cls_loss=losses))
+                sys.stdout.flush()
             train_loss += loss.item() * y.size(0)
             train_acc += (output.max(1)[1] == y).sum().item()
             train_n += y.size(0)
@@ -150,11 +179,6 @@ def main():
                 break
             prev_robust_acc = robust_acc
             best_state_dict = copy.deepcopy(model.state_dict())
-        epoch_time = time.time()
-        lr = scheduler.get_lr()[0]
-        logger.info('%d \t %.1f \t \t %.4f \t %.4f \t %.4f',
-            epoch, epoch_time - start_epoch_time, lr, train_loss/train_n, train_acc/train_n)
-        print('%d \t %.1f \t \t %.4f \t %.4f \t %.4f'.format(epoch, epoch_time - start_epoch_time, lr, train_loss/train_n, train_acc/train_n))
     train_time = time.time()
     if not args.early_stop:
         best_state_dict = model.state_dict()

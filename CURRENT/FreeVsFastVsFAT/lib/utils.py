@@ -124,7 +124,7 @@ def clamp(X, lower_limit, upper_limit):
     return torch.max(torch.min(X, upper_limit), lower_limit)
 
 
-def get_loaders(dir_, batch_size):
+def get_loaders(dir_, batch_size, num_workers):
     train_transform = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
@@ -135,7 +135,6 @@ def get_loaders(dir_, batch_size):
         transforms.ToTensor(),
         transforms.Normalize(cifar10_mean, cifar10_std),
     ])
-    num_workers = 2
     train_dataset = datasets.CIFAR10(
         dir_, train=True, transform=train_transform, download=True)
     test_dataset = datasets.CIFAR10(
@@ -146,14 +145,14 @@ def get_loaders(dir_, batch_size):
         batch_size=batch_size,
         shuffle=True,
         pin_memory=True,
-        num_workers=num_workers,
+        num_workers=num_workers
     )
     test_loader = torch.utils.data.DataLoader(
         dataset=test_dataset,
         batch_size=batch_size,
         shuffle=False,
         pin_memory=True,
-        num_workers=2,
+        num_workers=num_workers
     )
     return train_loader, test_loader
 

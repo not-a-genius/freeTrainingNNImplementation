@@ -1,0 +1,9 @@
+# Compressed files
+*.tar
+*.tar.gz
+
+# Remove data files
+*data
+
+# Remove checkpoints
+*.pt
