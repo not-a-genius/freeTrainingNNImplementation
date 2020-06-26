@@ -55,12 +55,12 @@ def accuracy(output, target, topk=(1,)):
         return res
 
 
-def initiate_logger(output_path, model_name):
+def initiate_logger(output_path):
     if not os.path.isdir(os.path.join('output', output_path)):
         os.makedirs(os.path.join('output', output_path))
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger()
-    logger.addHandler(logging.FileHandler(os.path.join('output', output_path, 'log' + model_name + '.txt'),'w'))
+    logger.addHandler(logging.FileHandler(os.path.join('output', output_path, 'log.txt'),'w'))
     logger.info(pad_str(' LOGISTICS '))
     logger.info('Experiment Date: {}'.format(datetime.datetime.now().strftime('%Y-%m-%d %H:%M')))
     logger.info('Output Name: {}'.format(output_path))
@@ -140,7 +140,6 @@ def get_loaders(dir_, batch_size):
         dir_, train=True, transform=train_transform, download=True)
     test_dataset = datasets.CIFAR10(
         dir_, train=False, transform=test_transform, download=True)
-
     train_loader = torch.utils.data.DataLoader(
         dataset=train_dataset,
         batch_size=batch_size,
