@@ -1,5 +1,5 @@
 ***************************** LOGISTICS *****************************
-Experiment Date: 2020-06-26 19:40
+Experiment Date: 2020-06-27 10:41
 Output Name: fast_adv_step4_eps4_repeat4
 User: gianluca
 2
@@ -29,7 +29,6 @@ output_prefix: fast_adv
 output_name: fast_adv_step4_eps4_repeat4
 **********************************************************************
 => creating model 'resnet50'
-False
-Train Epoch: [0][0/391]	Time 0.605 (0.605)	Data 0.000 (0.000)	Loss 7.4841 (7.4841)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Train Epoch: [0][10/391]	Time 0.607 (0.577)	Data 0.000 (0.000)	Loss 2.7652 (4.8493)	Prec@1 7.812 (4.972)	Prec@5 51.562 (29.616)
-Train Epoch: [0][20/391]	Time 0.555 (0.579)	Data 0.000 (0.000)	Loss 3.8065 (4.0648)	Prec@1 8.594 (6.696)	Prec@5 40.625 (37.388)
+Train Epoch: [0][0/391]	Time 0.526 (0.526)	Data 0.000 (0.000)	Loss 7.4991 (7.4991)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
+Train Epoch: [0][10/391]	Time 0.515 (0.520)	Data 0.000 (0.000)	Loss 2.8743 (4.8831)	Prec@1 7.812 (6.037)	Prec@5 52.344 (28.125)
+Train Epoch: [0][20/391]	Time 0.517 (0.520)	Data 0.000 (0.000)	Loss 3.6269 (4.1130)	Prec@1 6.250 (7.068)	Prec@5 42.188 (36.496)
