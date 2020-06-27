@@ -150,6 +150,7 @@ def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
     start_epoch_time = time.time()
     train_loss = 0
     train_acc = 0
+    train_err = 0
     train_n = 0
     for i, (X, y) in enumerate(train_loader):
         end = time.time()
@@ -199,11 +200,12 @@ def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
                     epoch, i, len(train_loader), batch_time=batch_time,
                     data_time=data_time, top1=top1, top5=top5,cls_loss=losses))
             sys.stdout.flush()
-        train_loss += loss.item() * y.size(0)
+        train_loss += loss.item() * X.shape[0]
         train_acc += (output.max(1)[1] == y).sum().item()
+        train_err += (output.max(1)[1] != y).sum().item()
         train_n += y.size(0)
         scheduler.step()
-    
+    print("Accuracy: %.3f, Error: %.3f, Loss: %.3f" %(train_acc / len(train_loader), train_err / len(train_loader), train_loss / len(train_loader)))
 
 
 if __name__ == "__main__":
