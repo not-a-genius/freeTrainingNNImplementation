@@ -75,10 +75,7 @@ def validate_pgd(val_loader, model, criterion, K, step, configs, logger):
 
     return top1.avg
 
-def validate(val_loader, model, criterion, configs, logger,early_stopping):
-
-    stopped=False
-
+def validate(val_loader, model, criterion, configs, logger):
     # Mean/Std for normalization   
     mean = torch.Tensor(np.array(configs.TRAIN.mean)[:, np.newaxis, np.newaxis])
     mean = mean.expand(3,configs.DATA.crop_size, configs.DATA.crop_size).cuda()
@@ -123,14 +120,7 @@ def validate(val_loader, model, criterion, configs, logger,early_stopping):
                        i, len(val_loader), batch_time=batch_time, loss=losses,
                        top1=top1, top5=top5))
                 sys.stdout.flush()
-    
-    early_stopping(loss, model)
-    
-
-    if configs.earlystoppable and early_stopping.early_stop:
-        print("Early stopping")
-        stopped=True
 
     print(' Final Prec@1 {top1.avg:.3f} Prec@5 {top5.avg:.3f}'
             .format(top1=top1, top5=top5))
-    return top1.avg,stopped,early_stopping
+    return top1.avg

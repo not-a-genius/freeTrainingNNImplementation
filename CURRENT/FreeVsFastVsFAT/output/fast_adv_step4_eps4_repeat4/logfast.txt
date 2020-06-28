@@ -1,73 +1,132 @@
 ***************************** LOGISTICS *****************************
-Experiment Date: 2020-06-27 16:38
+Experiment Date: 2020-06-27 15:11
 Output Name: fast_adv_step4_eps4_repeat4
-User: giuppo
-2
+User: gianluca
+100
 ***************************** ARGUMENTS *****************************
-TRAIN: {'epochs': 2, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
+TRAIN: {'epochs': 100, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
 ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
 DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 128, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
 FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
 FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
+data_dir: ./data
+lr_schedule: cyclic
+lr_min: 0.0
+lr_max: 0.2
+weight_decay: 0.0005
+momentum: 0.9
+epsilon: 8
+alpha: 10
+delta_init: random
+out_dir: train_fgsm_output
+seed: 0
+early_stop: False
+opt_level: O2
+loss_scale: 1.0
+master_weights: False
+config: configs.yml
+output_prefix: fast_adv
 output_name: fast_adv_step4_eps4_repeat4
 **********************************************************************
 => creating model 'resnet50'
-Train Epoch: [0][0/391]	Time 0.326 (0.326)	Data 0.000 (0.000)	Loss 7.4251 (7.4251)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Train Epoch: [1][0/391]	Time 0.324 (0.324)	Data 0.000 (0.000)	Loss 7.3310 (7.3310)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Total train time: 0.0182 minutes
-***************************** LOGISTICS *****************************
-Experiment Date: 2020-06-27 16:38
-Output Name: fast_adv_step4_eps4_repeat4
-User: giuppo
-2
-***************************** ARGUMENTS *****************************
-TRAIN: {'epochs': 2, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
-ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 128, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
-FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-output_name: fast_adv_step4_eps4_repeat4
-**********************************************************************
-=> creating model 'resnet50'
-Train Epoch: [0][0/391]	Time 0.326 (0.326)	Data 0.000 (0.000)	Loss 7.4251 (7.4251)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Train Epoch: [1][0/391]	Time 0.324 (0.324)	Data 0.000 (0.000)	Loss 7.3310 (7.3310)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Total train time: 0.0182 minutes
-': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
-ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 128, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
-FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-output_name: fast_adv_step4_eps4_repeat4
-**********************************************************************
-=> creating model 'resnet50'
-Train Epoch: [0][0/391]	Time 0.326 (0.326)	Data 0.000 (0.000)	Loss 7.4251 (7.4251)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Train Epoch: [1][0/391]	Time 0.324 (0.324)	Data 0.000 (0.000)	Loss 7.3310 (7.3310)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Total train time: 0.0182 minutes
-': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
-ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 128, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
-FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-output_name: fast_adv_step4_eps4_repeat4
-**********************************************************************
-=> creating model 'resnet50'
-Train Epoch: [0][0/391]	Time 0.326 (0.326)	Data 0.000 (0.000)	Loss 7.4251 (7.4251)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Train Epoch: [1][0/391]	Time 0.324 (0.324)	Data 0.000 (0.000)	Loss 7.3310 (7.3310)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Total train time: 0.0182 minutes
-***************************** LOGISTICS *****************************
-Experiment Date: 2020-06-27 16:38
-Output Name: fast_adv_step4_eps4_repeat4
-User: giuppo
-2
-***************************** ARGUMENTS *****************************
-TRAIN: {'epochs': 2, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
-ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 128, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
-FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-output_name: fast_adv_step4_eps4_repeat4
-**********************************************************************
-=> creating model 'resnet50'
-Train Epoch: [0][0/391]	Time 0.326 (0.326)	Data 0.000 (0.000)	Loss 7.4251 (7.4251)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Train Epoch: [1][0/391]	Time 0.324 (0.324)	Data 0.000 (0.000)	Loss 7.3310 (7.3310)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
-Total train time: 0.0182 minutes
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Accuracy: 0.049, Error: 0.051, Loss: 0.051
+Total train time: 0.0001 minutes

@@ -109,27 +109,8 @@ def main():
     '''
     # Data
     print('==> Preparing data..')
-    transform_train = transforms.Compose([
-        transforms.RandomCrop(configs.DATA.crop_size, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    ])
 
-    transform_test = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-    ])
-
-    trainset = datasets.CIFAR10(
-        root='./data', train=True, download=True, transform=transform_train)
-    trainloader = torch.utils.data.DataLoader(
-        trainset, batch_size=configs.DATA.batch_size, shuffle=True, num_workers=configs.DATA.workers)
-
-    testset = datasets.CIFAR10(
-        root='./data', train=False, download=True, transform=transform_test)
-    testloader = torch.utils.data.DataLoader(
-        testset, batch_size=configs.DATA.batch_size, shuffle=False, num_workers=configs.DATA.workers)
+    trainloader, testloader = get_loaders("./data", configs.DATA.batch_size, configs.DATA.workers)
 
     # If in evaluate mode: perform validation on PGD attacks as well as clean samples
     if configs.evaluate:
@@ -181,6 +162,10 @@ def train(train_loader, model, criterion, optimizer, epoch):
     losses = AverageMeter()
     top1 = AverageMeter()
     top5 = AverageMeter()
+    train_loss = 0
+    train_acc = 0
+    train_err = 0
+    train_n = 0
     # switch to train mode
     model.train()
     for i, (input, target) in enumerate(train_loader):
@@ -226,6 +211,11 @@ def train(train_loader, model, criterion, optimizer, epoch):
                        epoch, i, len(train_loader), batch_time=batch_time,
                        data_time=data_time, top1=top1, top5=top5,cls_loss=losses))
                 sys.stdout.flush()
+        train_loss += loss.item() * input.shape[0]
+        train_acc += (output.max(1)[1] == target).sum().item()
+        train_err += (output.max(1)[1] != target).sum().item()
+        train_n += target.size(0)
+    print("Accuracy: %.3f, Error: %.3f, Loss: %.3f" %(train_acc / len(train_loader.dataset), train_err / len(train_loader.dataset), train_loss / len(train_loader.dataset)))
 
 if __name__ == '__main__':
     main()
