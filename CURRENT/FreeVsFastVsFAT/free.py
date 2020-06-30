@@ -78,8 +78,6 @@ def main():
                                 momentum=configs.TRAIN.momentum,
                                 weight_decay=configs.TRAIN.weight_decay)
 
-    #optimizer = torch.optim.Adam(model.fc.parameters())
-
     # Resume if a valid checkpoint path is provided
     if configs.resume:
         if os.path.isfile(configs.resume):
@@ -94,19 +92,6 @@ def main():
         else:
             print("=> no checkpoint found at '{}'".format(configs.resume))
 
-    '''
-    # Initiate data loaders
-    traindir = os.path.join(configs.data, 'train')
-    valdir = os.path.join(configs.data, 'val')
-    
-    train_dataset = datasets.ImageFolder(
-        traindir,
-        transforms.Compose([
-            transforms.RandomResizedCrop(configs.DATA.crop_size),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-        ]))
-    '''
     # Data
     print('==> Preparing data..')
 
