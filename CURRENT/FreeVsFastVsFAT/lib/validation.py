@@ -61,7 +61,7 @@ def validate_pgd(val_loader, model, criterion, K, step, configs, logger):
             end = time.time()
 
             if i % configs.TRAIN.print_freq == 0:
-                print('PGD Test: [{0}/{1}]\t'
+                logger.info('PGD Test: [{0}/{1}]\t'
                       'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                       'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                       'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
@@ -70,7 +70,7 @@ def validate_pgd(val_loader, model, criterion, K, step, configs, logger):
                        top1=top1, top5=top5))
                 sys.stdout.flush()
 
-    print(' PGD Final Prec@1 {top1.avg:.3f} Prec@5 {top5.avg:.3f}'
+    logger.info(' PGD Final Prec@1 {top1.avg:.3f} Prec@5 {top5.avg:.3f}'
         .format(top1=top1, top5=top5))
 
     return top1.avg
@@ -112,7 +112,7 @@ def validate(val_loader, model, criterion, configs, logger):
             end = time.time()
 
             if i % configs.TRAIN.print_freq == 0:
-                print('Test: [{0}/{1}]\t'
+                logger.info('Test: [{0}/{1}]\t'
                       'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                       'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                       'Prec@1 {top1.val:.3f} ({top1.avg:.3f})\t'
@@ -121,6 +121,6 @@ def validate(val_loader, model, criterion, configs, logger):
                        top1=top1, top5=top5))
                 sys.stdout.flush()
 
-    print(' Final Prec@1 {top1.avg:.3f} Prec@5 {top5.avg:.3f}'
+    logger.info(' Final Prec@1 {top1.avg:.3f} Prec@5 {top5.avg:.3f}'
             .format(top1=top1, top5=top5))
     return top1.avg
