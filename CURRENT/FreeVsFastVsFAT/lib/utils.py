@@ -125,15 +125,28 @@ def clamp(X, lower_limit, upper_limit):
 
 
 def get_loaders(dir_, batch_size, num_workers):
+    configs=[]
+    with open("configs.yml") as f:
+        configs = EasyDict(yaml.load(f))
+    
     train_transform = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
+        # transforms.RandomCrop(32, padding=4),
+        # transforms.RandomHorizontalFlip(),
+        # transforms.ToTensor(),
+        # transforms.Normalize(cifar10_mean, cifar10_std),
+
+        transforms.RandomResizedCrop(configs.DATA.crop_size),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize(cifar10_mean, cifar10_std),
     ])
     test_transform = transforms.Compose([
+        
+        # transforms.ToTensor(),
+        # transforms.Normalize(cifar10_mean, cifar10_std),
+
+        transforms.Resize(configs.DATA.img_size),
+        transforms.CenterCrop(configs.DATA.crop_size),
         transforms.ToTensor(),
-        transforms.Normalize(cifar10_mean, cifar10_std),
     ])
     train_dataset = datasets.CIFAR10(
         dir_, train=True, transform=train_transform, download=True)
@@ -145,7 +158,8 @@ def get_loaders(dir_, batch_size, num_workers):
         batch_size=batch_size,
         shuffle=True,
         pin_memory=True,
-        num_workers=num_workers
+        num_workers=num_workers,
+        sampler=None
     )
     test_loader = torch.utils.data.DataLoader(
         dataset=test_dataset,
