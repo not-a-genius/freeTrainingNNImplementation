@@ -60,10 +60,6 @@ def main():
     if not os.path.isdir(os.path.join('trained_models', configs.output_name)):
         os.makedirs(os.path.join('trained_models', configs.output_name))
 
-    # Create weights folder
-    if not os.path.isdir(os.path.join('train_fgsm_output', configs.output_name)):
-        os.makedirs(os.path.join('train_fgsm_output', configs.output_name))
-
     # Log the config details
     logger.info(pad_str(' ARGUMENTS '))
     for k, v in configs.items(): print('{}: {}'.format(k, v))
@@ -73,7 +69,7 @@ def main():
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed(args.seed)
 
-    train_loader, test_loader = get_loaders(args.data_dir, configs.DATA.batch_size, configs.DATA.workers, configs.DATA.crop_size)
+    train_loader, test_loader = get_loaders(args.data_dir, configs.DATA.batch_size, configs.DATA.workers)
 
     epsilon = (args.epsilon / 255.) / std
     alpha = (args.alpha / 255.) / std
@@ -138,7 +134,7 @@ def main():
     model_test.float()
     model_test.eval()
 
-    pgd_loss, pgd_acc = evaluate_pgd(test_loader, model_test, 2, 10)
+    pgd_loss, pgd_acc = evaluate_pgd(test_loader, model_test, 50, 10)
     test_loss, test_acc = evaluate_standard(test_loader, model_test)
 
     logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
@@ -209,7 +205,7 @@ def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
         train_err += (output.max(1)[1] != y).sum().item()
         train_n += y.size(0)
         scheduler.step()
-    print("Accuracy: %.3f, Error: %.3f, Loss: %.3f" %(train_acc / len(train_loader.dataset), train_err / len(train_loader.dataset), train_loss / len(train_loader.dataset)))
+    print("Accuracy: %.3f, Error: %.3f, Loss: %.3f" %(train_acc / len(train_loader), train_err / len(train_loader), train_loss / len(train_loader)))
 
 
 if __name__ == "__main__":

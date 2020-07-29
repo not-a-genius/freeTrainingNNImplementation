@@ -31,12 +31,10 @@ def parse_args():
                     help='evaluate model on validation set')
     parser.add_argument('--pretrained', dest='pretrained', action='store_true',
                     help='use pre-trained model')
-    parser.add_argument('--out-dir', default='train_fgsm_output', type=str, help='Output directory')
     return parser.parse_args()
 
 # Parse config file and initiate logging
-args = parse_args()
-configs = parse_config_file(args)
+configs = parse_config_file(parse_args())
 logger = initiate_logger(configs.output_name, "free")
 print = logger.info
 cudnn.benchmark = True
@@ -97,7 +95,7 @@ def main():
     # Data
     print('==> Preparing data..')
 
-    trainloader, testloader = get_loaders("./data", configs.DATA.batch_size, configs.DATA.workers, configs.DATA.crop_size)
+    trainloader, testloader = get_loaders("./data", configs.DATA.batch_size, configs.DATA.workers)
 
     # If in evaluate mode: perform validation on PGD attacks as well as clean samples
     if configs.evaluate:
@@ -133,28 +131,8 @@ def main():
    
     # Automatically perform PGD Attacks at the end of training
     logger.info(pad_str(' Performing PGD Attacks '))
-    '''
     for pgd_param in configs.ADV.pgd_attack:
         validate_pgd(testloader, model, criterion, pgd_param[0], pgd_param[1], configs, logger)
-    '''
-    train_time = time.time()
-
-    best_state_dict = model.state_dict()
-    torch.save(best_state_dict, os.path.join(args.out_dir, 'model.pth'))
-    logger.info('Total train time: %.4f minutes', (train_time - start_train_time)/60)
-    # Evaluation
-
-    model_test = models.__dict__[configs.TRAIN.arch]().to(device)
-    model_test.load_state_dict(best_state_dict)
-    model_test.float()
-    model_test.eval()
-
-    for pgd_param in configs.ADV.pgd_attack:
-        pgd_loss, pgd_acc = evaluate_pgd(testloader, model_test, pgd_param[0], 10)
-    test_loss, test_acc = evaluate_standard(testloader, model_test)
-
-    logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
-    logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
 
 
 # Free Adversarial Training Module        
