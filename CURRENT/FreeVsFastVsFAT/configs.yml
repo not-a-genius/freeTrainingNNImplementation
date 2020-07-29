@@ -1,6 +1,6 @@
 TRAIN:
     # Number of training epochs
-    epochs: 2
+    epochs: 99
     
     # Architecture name, see pytorch models package for
     # a list of possible architectures
@@ -27,7 +27,7 @@ ADV:
     fgsm_step: 4.0
 
     # Number of repeats for free adversarial training
-    n_repeats: 4
+    n_repeats: 8
 
     # PGD attack parameters used during validation
     # the same clip_eps as above is used for PGD
@@ -37,16 +37,11 @@ ADV:
     
 DATA:
 
-    # cifar10_mean : (0.4914, 0.4822, 0.4465)
-    # cifar10_std : (0.2471, 0.2435, 0.2616)
-    cifar10_mean : (0.5, 0.5, 0.5)
-    cifar10_std : (0.5, 0.5, 0.5)
-
     # Number of data workers
     workers: 4
 
     # Training batch size
-    batch_size: 128
+    batch_size: 256
 
     # Image Size
     img_size: 256
@@ -61,23 +56,6 @@ FGSM:
   # FGSM parameters during training
     clip_eps: 4.0
     fgsm_step: 4.0
-
-    # Number of repeats for free adversarial training
-    n_repeats: 4
-
-    # PGD attack parameters used during validation
-    # the same clip_eps as above is used for PGD
-    pgd_attack: 
-    - !!python/tuple [10, 0.00392156862] #[10 iters, 1.0/255.0]
-    - !!python/tuple [50, 0.00392156862] #[50 iters, 1.0/255.0]
-
-FAT:  
-    # FGSM parameters during training
-    clip_eps: 4.0
-    fgsm_step: 4.0
-
-    # Number of repeats for free adversarial training
-    n_repeats: 4
 
     # PGD attack parameters used during validation
     # the same clip_eps as above is used for PGD

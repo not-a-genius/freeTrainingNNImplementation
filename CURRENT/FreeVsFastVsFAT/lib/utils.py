@@ -124,9 +124,9 @@ def clamp(X, lower_limit, upper_limit):
     return torch.max(torch.min(X, upper_limit), lower_limit)
 
 
-def get_loaders(dir_, batch_size, num_workers):
+def get_loaders(dir_, batch_size, num_workers, crop_size):
     train_transform = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
+        transforms.RandomCrop(crop_size, padding=4),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize(cifar10_mean, cifar10_std),
