@@ -147,11 +147,13 @@ def main():
     model_test.eval()
 
     for pgd_param in configs.ADV.pgd_attack:
+        print(pgd_param)
+        logger.info('K: ' + str(pgd_param[0]))
         pgd_loss, pgd_acc = evaluate_pgd(testloader, model_test, pgd_param[0], 10)
-    test_loss, test_acc = evaluate_standard(testloader, model_test)
+        test_loss, test_acc = evaluate_standard(testloader, model_test)
 
-    logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
-    logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
+        logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
+        logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
 
 
 # Free Adversarial Training Module        
