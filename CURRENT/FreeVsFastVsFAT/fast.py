@@ -139,12 +139,7 @@ def main():
     model_test.eval()
 
     for pgd_param in configs.ADV.pgd_attack:
-<<<<<<< HEAD
-        print(pgd_param)
-        logger.info('K: ' + str(pgd_param[0]))
-=======
         logger.info(pad_str("PGD-" + str(pgd_param[0])))
->>>>>>> new_master
         pgd_loss, pgd_acc = evaluate_pgd(testloader, model_test, pgd_param[0], 10)
         test_loss, test_acc = evaluate_standard(testloader, model_test)
 
