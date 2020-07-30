@@ -138,11 +138,13 @@ def main():
     model_test.float()
     model_test.eval()
 
-    pgd_loss, pgd_acc = evaluate_pgd(test_loader, model_test, 2, 10)
-    test_loss, test_acc = evaluate_standard(test_loader, model_test)
+    for pgd_param in configs.ADV.pgd_attack:
+        logger.info(pad_str("PGD-" + str(pgd_param[0])))
+        pgd_loss, pgd_acc = evaluate_pgd(testloader, model_test, pgd_param[0], 10)
+        test_loss, test_acc = evaluate_standard(testloader, model_test)
 
-    logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
-    logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
+        logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
+        logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
 
 def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler):
     # Initialize the meters
