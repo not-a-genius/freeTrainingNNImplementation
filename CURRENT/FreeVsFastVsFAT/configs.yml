@@ -1,6 +1,6 @@
 TRAIN:
     # Number of training epochs
-    epochs: 99
+    epochs: 2
     
     # Architecture name, see pytorch models package for
     # a list of possible architectures

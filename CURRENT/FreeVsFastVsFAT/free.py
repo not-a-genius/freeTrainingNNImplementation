@@ -144,7 +144,7 @@ def main():
     logger.info('Total train time: %.4f minutes', (train_time - start_train_time)/60)
     # Evaluation
 
-    model_test = models.__dict__[configs.TRAIN.arch]().to(device)
+    model_test = models.__dict__[configs.TRAIN.arch]().cuda()
     model_test.load_state_dict(best_state_dict)
     model_test.float()
     model_test.eval()
