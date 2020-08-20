@@ -1,0 +1,74 @@
+***************************** LOGISTICS *****************************
+Experiment Date: 2020-07-29 19:10
+Output Name: fast_adv_step4_eps4_repeat8
+User: gianluca
+2
+***************************** ARGUMENTS *****************************
+TRAIN: {'epochs': 2, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
+ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 8, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
+DATA: {'cifar10_mean': '(0.5, 0.5, 0.5)', 'cifar10_std': '(0.5, 0.5, 0.5)', 'workers': 4, 'batch_size': 256, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
+FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
+FAT: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 4, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
+data_dir: ./data
+lr_schedule: cyclic
+lr_min: 0.0
+lr_max: 0.2
+weight_decay: 0.0005
+momentum: 0.9
+epsilon: 8
+alpha: 10
+delta_init: random
+out_dir: train_fgsm_output
+seed: 0
+early_stop: False
+opt_level: O2
+loss_scale: 1.0
+master_weights: False
+config: configs.yml
+output_prefix: fast_adv
+output_name: fast_adv_step4_eps4_repeat8
+**********************************************************************
+=> creating model 'resnet50'
+Train Epoch: [0][0/196]	Time 0.114 (0.114)	Data 0.000 (0.000)	Loss 7.4093 (7.4093)	Prec@1 0.000 (0.000)	Prec@5 0.000 (0.000)
+Train Epoch: [0][10/196]	Time 0.094 (0.096)	Data 0.000 (0.000)	Loss 2.9862 (4.5289)	Prec@1 11.328 (6.037)	Prec@5 52.344 (31.570)
+Train Epoch: [0][20/196]	Time 0.097 (0.096)	Data 0.000 (0.000)	Loss 15.0334 (6.1812)	Prec@1 13.281 (7.403)	Prec@5 48.828 (39.453)
+Train Epoch: [0][30/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 5.5778 (6.5254)	Prec@1 10.547 (8.392)	Prec@5 50.391 (43.007)
+Train Epoch: [0][40/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 3.0574 (5.8559)	Prec@1 7.422 (8.737)	Prec@5 46.875 (44.579)
+Train Epoch: [0][50/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 2.7583 (5.3692)	Prec@1 8.984 (9.061)	Prec@5 53.516 (45.964)
+Train Epoch: [0][60/196]	Time 0.096 (0.096)	Data 0.000 (0.000)	Loss 6.6828 (5.2618)	Prec@1 9.375 (9.362)	Prec@5 49.219 (47.342)
+Train Epoch: [0][70/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 2.7033 (5.1038)	Prec@1 10.547 (9.403)	Prec@5 55.078 (48.091)
+Train Epoch: [0][80/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 4.3054 (4.8417)	Prec@1 12.500 (9.742)	Prec@5 59.766 (49.002)
+Train Epoch: [0][90/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 3.4600 (4.7113)	Prec@1 11.719 (10.083)	Prec@5 58.984 (50.228)
+Train Epoch: [0][100/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 4.7254 (4.6232)	Prec@1 10.156 (10.415)	Prec@5 55.469 (50.828)
+Train Epoch: [0][110/196]	Time 0.096 (0.096)	Data 0.000 (0.000)	Loss 4.9553 (4.6966)	Prec@1 14.062 (10.600)	Prec@5 50.391 (50.954)
+Train Epoch: [0][120/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 5.5791 (4.6923)	Prec@1 14.844 (10.628)	Prec@5 52.734 (50.901)
+Train Epoch: [0][130/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 4.7768 (4.6579)	Prec@1 6.641 (10.589)	Prec@5 55.078 (50.966)
+Train Epoch: [0][140/196]	Time 0.094 (0.096)	Data 0.000 (0.000)	Loss 3.1646 (4.6273)	Prec@1 6.641 (10.561)	Prec@5 50.000 (51.080)
+Train Epoch: [0][150/196]	Time 0.096 (0.096)	Data 0.000 (0.000)	Loss 3.2385 (4.5601)	Prec@1 10.156 (10.599)	Prec@5 51.562 (51.262)
+Train Epoch: [0][160/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 3.9422 (4.4889)	Prec@1 15.234 (10.593)	Prec@5 53.516 (51.225)
+Train Epoch: [0][170/196]	Time 0.095 (0.096)	Data 0.000 (0.000)	Loss 3.2704 (4.4546)	Prec@1 7.812 (10.599)	Prec@5 46.094 (51.439)
+Train Epoch: [0][180/196]	Time 0.098 (0.096)	Data 0.000 (0.000)	Loss 5.3292 (4.4056)	Prec@1 12.891 (10.653)	Prec@5 57.031 (51.541)
+Train Epoch: [0][190/196]	Time 0.097 (0.096)	Data 0.000 (0.000)	Loss 3.6995 (4.3591)	Prec@1 14.453 (10.629)	Prec@5 53.516 (51.661)
+Accuracy: 0.107, Error: 0.893, Loss: 4.335
+Train Epoch: [1][0/196]	Time 0.112 (0.112)	Data 0.000 (0.000)	Loss 3.0808 (3.0808)	Prec@1 12.109 (12.109)	Prec@5 55.078 (55.078)
+Train Epoch: [1][10/196]	Time 0.100 (0.102)	Data 0.000 (0.000)	Loss 3.4311 (3.3208)	Prec@1 8.984 (12.891)	Prec@5 56.641 (57.528)
+Train Epoch: [1][20/196]	Time 0.096 (0.099)	Data 0.000 (0.000)	Loss 2.3098 (3.1614)	Prec@1 15.625 (12.909)	Prec@5 56.250 (56.752)
+Train Epoch: [1][30/196]	Time 0.097 (0.098)	Data 0.000 (0.000)	Loss 3.4996 (3.0261)	Prec@1 13.281 (12.437)	Prec@5 57.422 (56.414)
+Train Epoch: [1][40/196]	Time 0.101 (0.098)	Data 0.000 (0.000)	Loss 2.5798 (2.9608)	Prec@1 7.031 (12.624)	Prec@5 56.250 (56.603)
+Train Epoch: [1][50/196]	Time 0.095 (0.097)	Data 0.000 (0.000)	Loss 2.8640 (2.8913)	Prec@1 17.578 (12.722)	Prec@5 60.547 (57.001)
+Train Epoch: [1][60/196]	Time 0.095 (0.097)	Data 0.000 (0.000)	Loss 2.4983 (2.8385)	Prec@1 9.375 (12.590)	Prec@5 61.328 (57.697)
+Train Epoch: [1][70/196]	Time 0.095 (0.097)	Data 0.000 (0.000)	Loss 2.6379 (2.7878)	Prec@1 16.406 (12.786)	Prec@5 62.109 (57.713)
+Train Epoch: [1][80/196]	Time 0.095 (0.097)	Data 0.000 (0.000)	Loss 2.2672 (2.7533)	Prec@1 10.547 (12.944)	Prec@5 59.766 (58.237)
+Train Epoch: [1][90/196]	Time 0.096 (0.097)	Data 0.000 (0.000)	Loss 2.2601 (2.7196)	Prec@1 12.109 (13.092)	Prec@5 60.156 (58.624)
+Train Epoch: [1][100/196]	Time 0.103 (0.097)	Data 0.000 (0.000)	Loss 2.3943 (2.6991)	Prec@1 8.984 (12.813)	Prec@5 52.344 (58.037)
+Train Epoch: [1][110/196]	Time 0.096 (0.097)	Data 0.000 (0.000)	Loss 2.3445 (2.6817)	Prec@1 12.109 (12.553)	Prec@5 53.516 (57.499)
+Train Epoch: [1][120/196]	Time 0.103 (0.097)	Data 0.000 (0.000)	Loss 2.2955 (2.6563)	Prec@1 12.891 (12.613)	Prec@5 59.766 (57.577)
+Train Epoch: [1][130/196]	Time 0.096 (0.097)	Data 0.000 (0.000)	Loss 2.3531 (2.6366)	Prec@1 11.328 (12.604)	Prec@5 61.328 (57.690)
+Train Epoch: [1][140/196]	Time 0.096 (0.097)	Data 0.000 (0.000)	Loss 2.4580 (2.6175)	Prec@1 11.328 (12.569)	Prec@5 54.297 (57.738)
+Train Epoch: [1][150/196]	Time 0.096 (0.097)	Data 0.000 (0.000)	Loss 2.4039 (2.6023)	Prec@1 14.453 (12.547)	Prec@5 58.203 (57.634)
+Train Epoch: [1][160/196]	Time 0.095 (0.097)	Data 0.000 (0.000)	Loss 2.3982 (2.5868)	Prec@1 12.891 (12.549)	Prec@5 59.766 (57.684)
+Train Epoch: [1][170/196]	Time 0.096 (0.097)	Data 0.000 (0.000)	Loss 2.3386 (2.5717)	Prec@1 12.500 (12.582)	Prec@5 55.469 (57.730)
+Train Epoch: [1][180/196]	Time 0.095 (0.097)	Data 0.000 (0.000)	Loss 2.4116 (2.5584)	Prec@1 14.453 (12.662)	Prec@5 61.719 (57.860)
+Train Epoch: [1][190/196]	Time 0.098 (0.097)	Data 0.000 (0.000)	Loss 2.3192 (2.5455)	Prec@1 12.891 (12.750)	Prec@5 57.812 (57.958)
+Accuracy: 0.128, Error: 0.872, Loss: 2.540
+Total train time: 0.6354 minutes

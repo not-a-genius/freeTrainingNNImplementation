@@ -15,10 +15,13 @@ import numpy as np
 from utils import *
 from validation import validate, validate_pgd
 import torchvision.models as models
+from preact_resnet import PreActResNet18
 
 '''
     Arguments 
 '''
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
     parser.add_argument('--output_prefix', default='free_adv', type=str,
@@ -31,6 +34,9 @@ def parse_args():
                     help='evaluate model on validation set')
     parser.add_argument('--pretrained', dest='pretrained', action='store_true',
                     help='use pre-trained model')
+    parser.add_argument('--load_weights',dest="load_weights", default="cifar_model_weights_30_epochs.pth",action='store_false',
+                    help='load weights model')
+                    
     parser.add_argument('--out-dir', default='train_fgsm_output', type=str, help='Output directory')
     return parser.parse_args()
 
@@ -100,6 +106,19 @@ def main():
     trainloader, testloader = get_loaders("./data", configs.DATA.batch_size, configs.DATA.workers, configs.DATA.crop_size)
 
     # If in evaluate mode: perform validation on PGD attacks as well as clean samples
+
+    model = PreActResNet18().cuda()
+  # Use GPU or CPU
+    model = model.to(device)
+
+    if(LOAD_WEIGHTS):
+        logger.info(pad_str("LOADING WEIGHTS"))
+        model_path = "cifar_model_weights_30_epochs.pth"
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict)
+        model = model.eval()
+        
+    
     if configs.evaluate:
         logger.info(pad_str(' Performing PGD Attacks '))
         for pgd_param in configs.ADV.pgd_attack:

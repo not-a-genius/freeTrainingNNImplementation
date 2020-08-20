@@ -14,7 +14,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 import torchvision.datasets as datasets
+from preact_resnet import PreActResNet18
 
+LOAD_WEIGHTS=True
 
 
 def get_args():
@@ -27,6 +29,8 @@ def get_args():
     parser.add_argument('--momentum', default=0.9, type=float)
     parser.add_argument('--epsilon', default=8, type=int)
     parser.add_argument('--alpha', default=10, type=float, help='Step size')
+    parser.add_argument('-e', '--evaluate', dest='evaluate', action='store_true',
+                    help='evaluate model on validation set')
     parser.add_argument('--delta-init', default='random', choices=['zero', 'random', 'previous'],
         help='Perturbation initialization method')
     parser.add_argument('--out-dir', default='train_fgsm_output', type=str, help='Output directory')
@@ -80,10 +84,33 @@ def main():
     pgd_alpha = (2 / 255.) / std
 
     print("=> creating model '{}'".format(configs.TRAIN.arch))
-    model = models.__dict__[configs.TRAIN.arch]()
-
+    # model = models.__dict__[configs.TRAIN.arch]()
+    
+    
+    model = PreActResNet18().cuda()
+    if(LOAD_WEIGHTS):
+        logger.info(pad_str("LOADING WEIGHTS"))
+        model_path = "cifar_model_weights_30_epochs.pth"
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict)
+        model = model.eval()
+        
+    
+    
     # Use GPU or CPU
     model = model.to(device)
+
+    
+    if configs.evaluate:
+        logger.info(pad_str(' Performing PGD Attacks '))
+        for pgd_param in configs.ADV.pgd_attack:
+            logger.info(pad_str("PGD-" + str(pgd_param[0])))
+            pgd_loss, pgd_acc = evaluate_pgd(test_loader, model, pgd_param[0], 10)
+            test_loss, test_acc = evaluate_standard(test_loader, model)
+
+            logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
+            logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
+            return
 
     model.train()
 
