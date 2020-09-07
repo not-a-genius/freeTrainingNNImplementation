@@ -108,10 +108,10 @@ def main():
     # If in evaluate mode: perform validation on PGD attacks as well as clean samples
 
     model = PreActResNet18().cuda()
-  # Use GPU or CPU
+    # Use GPU or CPU
     model = model.to(device)
 
-    if(LOAD_WEIGHTS):
+    if(configs.load_weights):
         logger.info(pad_str("LOADING WEIGHTS"))
         model_path = "cifar_model_weights_30_epochs.pth"
         state_dict = torch.load(model_path)
@@ -163,18 +163,21 @@ def main():
     logger.info('Total train time: %.4f minutes', (train_time - start_train_time)/60)
     # Evaluation
 
-    model_test = models.__dict__[configs.TRAIN.arch]().cuda()
+    model_test = PreActResNet18().cuda()
     model_test.load_state_dict(best_state_dict)
     model_test.float()
     model_test.eval()
 
+    test_loss, test_acc = evaluate_standard(testloader, model_test)
+    logger.info('Test Loss \t Test Acc')
+    logger.info('%.4f \t \t %.4f', test_loss, test_acc)
+
     for pgd_param in configs.ADV.pgd_attack:
         logger.info(pad_str("PGD-" + str(pgd_param[0])))
         pgd_loss, pgd_acc = evaluate_pgd(testloader, model_test, pgd_param[0], 10)
-        test_loss, test_acc = evaluate_standard(testloader, model_test)
 
-        logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
-        logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
+        logger.info('PGD Loss \t PGD Acc')
+        logger.info('%.4f \t \t %.4f', pgd_loss, pgd_acc)
 
 
 # Free Adversarial Training Module        

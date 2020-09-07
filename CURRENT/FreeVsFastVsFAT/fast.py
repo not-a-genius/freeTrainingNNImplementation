@@ -7,6 +7,7 @@ import random
 import sys
 import time
 from utils import *
+from validation import validate, validate_pgd
 import apex.amp as amp
 import numpy as np
 import torch
@@ -46,6 +47,8 @@ def get_args():
                     help='path to the config file (default: configs.yml)')
     parser.add_argument('--output_prefix', default='fast_adv', type=str,
                     help='prefix used to define output path')
+    parser.add_argument('--load_weights',dest="load_weights", default="cifar_model_weights_30_epochs.pth",action='store_false',
+                    help='load weights model')
     return parser.parse_args()
 
 args = get_args()
@@ -88,7 +91,7 @@ def main():
     
     
     model = PreActResNet18().cuda()
-    if(LOAD_WEIGHTS):
+    if(configs.load_weights):
         logger.info(pad_str("LOADING WEIGHTS"))
         model_path = "cifar_model_weights_30_epochs.pth"
         state_dict = torch.load(model_path)
@@ -140,6 +143,8 @@ def main():
         # Train
         train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
 
+        prec1 = validate(test_loader, model, criterion, configs, logger)
+
         if args.early_stop:
             # Check current PGD robustness of model using random minibatch
             X, y = first_batch
@@ -158,20 +163,30 @@ def main():
     torch.save(best_state_dict, os.path.join(args.out_dir, 'model.pth'))
     logger.info('Total train time: %.4f minutes', (train_time - start_train_time)/60)
 
+    # Automatically perform PGD Attacks at the end of training
+    logger.info(pad_str(' Performing PGD Attacks '))
+    for pgd_param in configs.ADV.pgd_attack:
+        validate_pgd(test_loader, model, criterion, pgd_param[0], pgd_param[1], configs, logger)
+
     # Evaluation
 
+    '''
     model_test = models.__dict__[configs.TRAIN.arch]().to(device)
     model_test.load_state_dict(best_state_dict)
     model_test.float()
     model_test.eval()
 
+    test_loss, test_acc = evaluate_standard(testloader, model_test)
+    logger.info('Test Loss \t Test Acc')
+    logger.info('%.4f \t \t %.4f', test_loss, test_acc)
+
     for pgd_param in configs.ADV.pgd_attack:
         logger.info(pad_str("PGD-" + str(pgd_param[0])))
         pgd_loss, pgd_acc = evaluate_pgd(testloader, model_test, pgd_param[0], 10)
-        test_loss, test_acc = evaluate_standard(testloader, model_test)
-
-        logger.info('Test Loss \t Test Acc \t PGD Loss \t PGD Acc')
-        logger.info('%.4f \t \t %.4f \t %.4f \t %.4f', test_loss, test_acc, pgd_loss, pgd_acc)
+        
+        logger.info('PGD Loss \t PGD Acc')
+        logger.info('%.4f \t %.4f', pgd_loss, pgd_acc)
+    '''
 
 def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler):
     # Initialize the meters
