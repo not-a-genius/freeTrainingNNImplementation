@@ -111,12 +111,12 @@ def main():
     # Use GPU or CPU
     model = model.to(device)
 
-    if(configs.load_weights):
-        logger.info(pad_str("LOADING WEIGHTS"))
-        model_path = "cifar_model_weights_30_epochs.pth"
-        state_dict = torch.load(model_path)
-        model.load_state_dict(state_dict)
-        model = model.eval()
+    # if(configs.load_weights):
+    #     logger.info(pad_str("LOADING WEIGHTS"))
+    #     model_path = "cifar_model_weights_30_epochs.pth"
+    #     state_dict = torch.load(model_path)
+    #     model.load_state_dict(state_dict)
+    #     model = model.eval()
         
     
     if configs.evaluate:
@@ -224,7 +224,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
             optimizer.zero_grad()
             loss.backward()
             
-            # Update the noise for the next iteration
+            # Update the noise for the' next iteration
             pert = fgsm(noise_batch.grad, configs.ADV.fgsm_step)
             global_noise_data[0:input.size(0)] += pert.data
             global_noise_data.clamp_(-configs.ADV.clip_eps, configs.ADV.clip_eps)

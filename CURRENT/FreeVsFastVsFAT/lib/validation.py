@@ -92,15 +92,15 @@ def validate(val_loader, model, criterion, configs, logger):
     end = time.time()
     for i, (input, target) in enumerate(val_loader):
         with torch.no_grad():
-            input = input.cuda(non_blocking=True)
-            target = target.cuda(non_blocking=True)
+            input = input.cuda()
+            target = target.cuda()
 
             # compute output
             input = input - mean
             input.div_(std)
             output = model(input)
             loss = criterion(output, target)
-
+            
             # measure accuracy and record loss
             prec1, prec5 = accuracy(output, target, topk=(1, 5))
             losses.update(loss.item(), input.size(0))

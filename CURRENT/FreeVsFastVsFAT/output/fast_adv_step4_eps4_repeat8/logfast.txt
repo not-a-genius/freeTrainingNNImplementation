@@ -1,13 +1,13 @@
 ***************************** LOGISTICS *****************************
-Experiment Date: 2020-08-20 18:05
+Experiment Date: 2020-09-08 22:07
 Output Name: fast_adv_step4_eps4_repeat8
 User: giuppo
-2
+20
 ***************************** ARGUMENTS *****************************
-TRAIN: {'epochs': 2, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
+TRAIN: {'epochs': 20, 'arch': 'resnet50', 'start_epoch': 0, 'lr': 0.1, 'momentum': 0.9, 'weight_decay': 0.0001, 'print_freq': 10, 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225]}
 ADV: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'n_repeats': 8, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
-DATA: {'workers': 4, 'batch_size': 256, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
-FGSM: {'clip_eps': 4.0, 'fgsm_step': 4.0, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
+DATA: {'workers': 4, 'batch_size': 192, 'img_size': 256, 'crop_size': 32, 'max_color_value': 255.0}
+FGSM: {'clip_eps': 8.0, 'fgsm_step': 4.0, 'pgd_attack': [(10, 0.00392156862), (50, 0.00392156862)]}
 data_dir: ./data
 lr_schedule: cyclic
 lr_min: 0.0
@@ -16,7 +16,7 @@ weight_decay: 0.0005
 momentum: 0.9
 epsilon: 8
 alpha: 10
-evaluate: True
+evaluate: False
 delta_init: random
 out_dir: train_fgsm_output
 seed: 0
@@ -26,9 +26,7 @@ loss_scale: 1.0
 master_weights: False
 config: configs.yml
 output_prefix: fast_adv
+load_weights: cifar_model_weights_30_epochs.pth
 output_name: fast_adv_step4_eps4_repeat8
 **********************************************************************
 => creating model 'resnet50'
-***************************LOADING WEIGHTS***************************
-*********************** Performing PGD Attacks ***********************
-********************************PGD-10********************************

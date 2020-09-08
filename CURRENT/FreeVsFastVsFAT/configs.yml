@@ -1,6 +1,6 @@
 TRAIN:
     # Number of training epochs
-    epochs: 2
+    epochs: 20
     
     # Architecture name, see pytorch models package for
     # a list of possible architectures
@@ -41,7 +41,7 @@ DATA:
     workers: 4
 
     # Training batch size
-    batch_size: 256
+    batch_size: 192
 
     # Image Size
     img_size: 256
@@ -54,7 +54,7 @@ DATA:
 
 FGSM:
   # FGSM parameters during training
-    clip_eps: 4.0
+    clip_eps: 8.0
     fgsm_step: 4.0
 
     # PGD attack parameters used during validation

@@ -12,12 +12,14 @@ import apex.amp as amp
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as F 
 import torchvision.models as models
 import torchvision.datasets as datasets
 from preact_resnet import PreActResNet18
+import torchvision.models as models
+from wideresnet import *
 
-LOAD_WEIGHTS=True
+LOAD_WEIGHTS = False
 
 
 def get_args():
@@ -89,14 +91,18 @@ def main():
     print("=> creating model '{}'".format(configs.TRAIN.arch))
     # model = models.__dict__[configs.TRAIN.arch]()
     
+    model = WideResNet().to(device)
     
-    model = PreActResNet18().cuda()
-    if(configs.load_weights):
-        logger.info(pad_str("LOADING WEIGHTS"))
-        model_path = "cifar_model_weights_30_epochs.pth"
-        state_dict = torch.load(model_path)
-        model.load_state_dict(state_dict)
-        model = model.eval()
+    # model = PreActResNet18().cuda()
+    # resnet50 = models.resnet50()
+    # model =  resnet18
+
+    # if(configs.load_weights):
+    #     logger.info(pad_str("LOADING WEIGHTS"))
+    #     model_path = "cifar_model_weights_30_epochs.pth"
+    #     state_dict = torch.load(model_path)
+    #     model.load_state_dict(state_dict)
+    #     model = model.eval()
         
     
     
@@ -144,7 +150,7 @@ def main():
         train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
 
         prec1 = validate(test_loader, model, criterion, configs, logger)
-
+        # prec1 = 100
         if args.early_stop:
             # Check current PGD robustness of model using random minibatch
             X, y = first_batch
@@ -225,16 +231,20 @@ def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
         output = model(X + delta[:X.size(0)])
         loss = criterion(output, y)
 
+     
+
+
         opt.zero_grad()
         with amp.scale_loss(loss, opt) as scaled_loss:
             scaled_loss.backward()
         opt.step()
 
+
         prec1, prec5 = accuracy(output, y, topk=(1, 5))
         losses.update(loss.item(), X.size(0))
         top1.update(prec1[0], X.size(0))
         top5.update(prec5[0], X.size(0))
-
+       
         # measure elapsed time
         batch_time.update(time.time() - end)
         end = time.time()
@@ -248,7 +258,8 @@ def train(train_loader, model, criterion, epoch, epsilon, opt, alpha, scheduler)
                     epoch, i, len(train_loader), batch_time=batch_time,
                     data_time=data_time, top1=top1, top5=top5,cls_loss=losses))
             sys.stdout.flush()
-        train_loss += loss.item() * X.shape[0]
+
+        train_loss += loss.item() * y.size(0)
         train_acc += (output.max(1)[1] == y).sum().item()
         train_err += (output.max(1)[1] != y).sum().item()
         train_n += y.size(0)
